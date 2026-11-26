@@ -1,4 +1,4 @@
-const CACHE = 'jere-genesis-v10';
+const CACHE = 'jere-genesis-v11';
 const base = self.registration.scope;
 
 const assets = [
@@ -19,7 +19,7 @@ self.addEventListener('install', e => {
     );
 });
 
-// Eliminar versiones antiguas de la caché
+// Eliminar versiones anteriores de la caché
 self.addEventListener('activate', e => {
     e.waitUntil(
         caches.keys()
@@ -74,7 +74,7 @@ self.addEventListener('fetch', e => {
     e.respondWith((async () => {
         const c = await caches.open(CACHE);
 
-        // Reproducción musical offline
+        // Reproducción musical sin Internet
         if (
             u.pathname ===
             new URL('cancion.mp3', base).pathname
@@ -89,7 +89,6 @@ self.addEventListener('fetch', e => {
 
             const b = await hit.arrayBuffer();
             const n = b.byteLength;
-
             const m = /^bytes=(\d*)-(\d*)$/.exec(range);
 
             let a, z;
@@ -133,7 +132,7 @@ self.addEventListener('fetch', e => {
             });
         }
 
-        // Priorizar la versión online de la página
+        // Priorizar la versión actualizada de la página
         if (r.mode === 'navigate') {
             try {
                 return await fetch(r);
